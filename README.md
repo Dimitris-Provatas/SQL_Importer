@@ -8,7 +8,6 @@ It will print the time each file took, and a total time the script was running i
 
 ### To run the script simply go in the folder you want it to work and type:
 
-<code>sudo chmod 777 ./SQL_Import.sh
-sudo ./SQL_Import.sh -u [your db username] (-p [your password])*
+<code>sudo chmod 777 ./SQL_Import.sh<br/>sudo ./SQL_Import.sh -u [your db username] (-p [your password])*
 
 *note that the password is optional, if the user you will use has no password, then you don't have to use the <code>-p</code> argument.
