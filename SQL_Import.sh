@@ -27,7 +27,7 @@ myHelp ()
         echo "----- SQL_Import.sh Script -----"
         echo ""
         echo "This script was created for folders with many .sql files, e.g. server backups."
-        echo "This script will take care of all this work by simply giving it 2 arguments, a username, a password (optional), and a path (optional), to access MySQL on your computer."
+        echo "This script will take care of all this work by simply giving it 3 (1 necessary and 2 optional) arguments, a username, a password (optional), and a path (optional), to access MySQL on your computer."
         echo "It will print the time each file took, and a total time the script was running in seconds."
         echo ""
         echo "Arguments:"
