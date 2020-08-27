@@ -16,4 +16,4 @@ It will print the time each file took, and a total time the script was running i
 
 <code>/path/to/script/SQL_Import.sh -h</code>
 
-*note that the password and the path are optional. if the user you will use has no password, then you don't have to use the <code>-p</code> argument. If the script is at the same folder as the files, you do not need to specify a path, it will get currcent directory as default automaticaly.
+*note that the password and the path are optional. if the user you will use has no password, then you don't have to use the <code>-p</code> argument. If the script is at the same folder as the files, you do not need to specify a path, it will get currcent directory as default automaticaly. Also, the <code>-h</code> exits the program, so I recommend you do not use it with other arguments. The script also features a invalid argument handler.
