@@ -45,11 +45,11 @@ while getopts u:p:w:h option
 do
         case ${option} in
                 u) #set usernameNAME
-                        username=${OPTARG};;
+                        username="${OPTARG}";;
                 p) #set password
-                        password=${OPTARG};;
+                        password="${OPTARG}";;
                 w) #set the path
-                        path=${OPTARG};;
+                        path="${OPTARG}";;
                 h) #help preview
                         myHelp
                         exit 0;;
@@ -59,14 +59,14 @@ do
         esac
 done
 
-if [$username!=""]
+if [ "$username" != "" ]
 then
         # Set the path
-        if [$path=""]
+        if [ "$path" == "" ]
         then
                 finalPath='.'
         else
-                if [${path:-1}='/']
+                if [ ${path:-1} == '/' ]
                 then
                         finalPath=${path%?}
                 else
@@ -93,15 +93,15 @@ then
 
                 # Create the database if it does not exist, then
                 # Run the sql file in the mysql cli with the file name as the db
-                if [$password != ""]
+                if [ "$password" != "" ]
                 then
-                        mysql -u $username -p[$password] -Bse "CREATE DATABASE IF NOT EXISTS $databaseName;"
+                        mysql -u "$username" -p$password -Bse "CREATE DATABASE IF NOT EXISTS $databaseName;"
                         sleep 0.25
-                        mysql -u $username -p[$password] $databaseName < $finalPath/$fileName
+                        mysql -u "$username" -p$password "$databaseName" < "$finalPath/$fileName"
                 else
-                        mysql -u $username -Bse "CREATE DATABASE IF NOT EXISTS $databaseName;"
+                        mysql -u "$username" -Bse "CREATE DATABASE IF NOT EXISTS $databaseName;"
                         sleep 0.25
-                        mysql -u $username $databaseName < $finalPath/$fileName
+                        mysql -u "$username" "$databaseName" < "$finalPath/$fileName"
                 fi
 
                 echo "done with $fileName"
@@ -122,5 +122,5 @@ then
 else
         # No user was given
         echo "You need to specify at least a user with the -u argument."
-        exit 0
+        exit 128
 fi
