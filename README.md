@@ -10,7 +10,7 @@ It will print the time each file took, and a total time the script was running i
 
 ### To run the script type the following commad:
 
-<code>sudo /path/to/script/SQL_Import.sh -u [your db username] (-p [your password] -w [your folder path])</code>
+<code>/path/to/script/SQL_Import.sh -u [your db username] (-p [your password] -w [your folder path])</code>
 
 #### You can find a analytic print of the specifications with the following command:
 
