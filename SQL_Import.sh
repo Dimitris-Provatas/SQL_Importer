@@ -104,11 +104,11 @@ then
                 # Run the sql file in the mysql cli with the file name as the db
                 if [ "$password" != "" ]
                 then
-                        mysql -u "$username" -p$password -Bse "CREATE DATABASE IF NOT EXISTS $databaseName;" >> $LOGFILENAME
+                        mysql -u "$username" -p$password -Bse "CREATE DATABASE IF NOT EXISTS \`$databaseName\`;" >> $LOGFILENAME
                         sleep 0.25
                         mysql -u "$username" -p$password "$databaseName" < "$finalPath/$fileName" >> $LOGFILENAME
                 else
-                        mysql -u "$username" -Bse "CREATE DATABASE IF NOT EXISTS $databaseName;" >> $LOGFILENAME
+                        mysql -u "$username" -Bse "CREATE DATABASE IF NOT EXISTS \`$databaseName\`;" >> $LOGFILENAME
                         sleep 0.25
                         mysql -u "$username" "$databaseName" < "$finalPath/$fileName" >> $LOGFILENAME
                 fi
@@ -134,7 +134,7 @@ then
         # Print final time in the log file
         echo "" >> $LOGFILENAME
         echo "$(date): Done with all sql files in this folder after $totalTimeElapsed seconds." >> $LOGFILENAME
-	echo "You can find a complete log of the program at \'$LOGFILENAME\'"
+	echo "You can find a complete log of the program at '$LOGFILENAME'"
         
         echo "Exiting..."
         exit 0
