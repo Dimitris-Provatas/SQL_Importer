@@ -75,23 +75,18 @@ then
         fi
 
         # Create the log file in the same path as the sql files
-        targetFile=$(touch "$finalPath/$(date)-log.txt")
+        LOGFILENAME="$finalPath/SQL_Import_$(date +%F-%T).log"
 
         # Log file title
-        echo "$(date) Log File for import operation!" >> $targetFile
-        echo "" >> $targetFile
-
-        # Print the arguments given by the user
-        echo "Username: $username"
-        echo "Password: $password"
-        echo "Folder Path: $finalPath"
+        echo "$(date) Log File for import operation!" >> $LOGFILENAME
+        echo "" >> $LOGFILENAME
 
         # Print the arguments given by the user in the log file
-        echo "Username: $username" >> $targetFile
-        echo "Password: $password" >> $targetFile
-        echo "Folder Path: $finalPath" >> $targetFile
+        echo "Username: $username" >> $LOGFILENAME
+        echo "Password: $password" >> $LOGFILENAME
+        echo "Folder Path: $finalPath" >> $LOGFILENAME
 
-        echo "" >> $targetFile
+        echo "" >> $LOGFILENAME
 
         # Loop through .sql files
         for FILE in $finalPath/*.sql
@@ -109,13 +104,13 @@ then
                 # Run the sql file in the mysql cli with the file name as the db
                 if [ "$password" != "" ]
                 then
-                        echo $(mysql -u "$username" -p$password -Bse "CREATE DATABASE IF NOT EXISTS \"$databaseName\";") >> $targetFile
+                        mysql -u "$username" -p$password -Bse "CREATE DATABASE IF NOT EXISTS $databaseName;" >> $LOGFILENAME
                         sleep 0.25
-                        echo $(mysql -u "$username" -p$password "$databaseName" < "$finalPath/$fileName") >> $targetFile
+                        mysql -u "$username" -p$password "$databaseName" < "$finalPath/$fileName" >> $LOGFILENAME
                 else
-                        echo $(mysql -u "$username" -Bse "CREATE DATABASE IF NOT EXISTS \"$databaseName\";") >> $targetFile
+                        mysql -u "$username" -Bse "CREATE DATABASE IF NOT EXISTS $databaseName;" >> $LOGFILENAME
                         sleep 0.25
-                        echo $(mysql -u "$username" "$databaseName" < "$finalPath/$fileName") >> $targetFile
+                        mysql -u "$username" "$databaseName" < "$finalPath/$fileName" >> $LOGFILENAME
                 fi
 
                 echo "Done with $fileName"
@@ -128,7 +123,7 @@ then
                 echo "Finished after: $timeElapsed seconds!"
 
                 # Log the name of the file and the time it took to the log file
-                echo "$(date): Done with $fileName after $timeElapsed seconds." >> $targetFile
+                echo "$(date): Done with $fileName after $timeElapsed seconds." >> $LOGFILENAME
         done
 
         # Print the total time ellapsed
@@ -137,8 +132,9 @@ then
         echo "Done with all sql files in this folder after $totalTimeElapsed seconds."
 
         # Print final time in the log file
-        echo "" >> $targetFile
-        echo "$(date): Done with all sql files in this folder after $totalTimeElapsed seconds." >> $targetFile
+        echo "" >> $LOGFILENAME
+        echo "$(date): Done with all sql files in this folder after $totalTimeElapsed seconds." >> $LOGFILENAME
+	echo "You can find a complete log of the program at \'$LOGFILENAME\'"
         
         echo "Exiting..."
         exit 0
