@@ -74,10 +74,24 @@ then
                 fi
         fi
 
+        # Create the log file in the same path as the sql files
+        targetFile=$(touch "$finalPath/$(date)-log.txt")
+
+        # Log file title
+        echo "$(date) Log File for import operation!" >> $targetFile
+        echo "" >> $targetFile
+
         # Print the arguments given by the user
         echo "Username: $username"
         echo "Password: $password"
         echo "Folder Path: $finalPath"
+
+        # Print the arguments given by the user in the log file
+        echo "Username: $username" >> $targetFile
+        echo "Password: $password" >> $targetFile
+        echo "Folder Path: $finalPath" >> $targetFile
+
+        echo "" >> $targetFile
 
         # Loop through .sql files
         for FILE in $finalPath/*.sql
@@ -95,16 +109,16 @@ then
                 # Run the sql file in the mysql cli with the file name as the db
                 if [ "$password" != "" ]
                 then
-                        mysql -u "$username" -p$password -Bse "CREATE DATABASE IF NOT EXISTS $databaseName;"
+                        echo $(mysql -u "$username" -p$password -Bse "CREATE DATABASE IF NOT EXISTS \"$databaseName\";") >> $targetFile
                         sleep 0.25
-                        mysql -u "$username" -p$password "$databaseName" < "$finalPath/$fileName"
+                        echo $(mysql -u "$username" -p$password "$databaseName" < "$finalPath/$fileName") >> $targetFile
                 else
-                        mysql -u "$username" -Bse "CREATE DATABASE IF NOT EXISTS $databaseName;"
+                        echo $(mysql -u "$username" -Bse "CREATE DATABASE IF NOT EXISTS \"$databaseName\";") >> $targetFile
                         sleep 0.25
-                        mysql -u "$username" "$databaseName" < "$finalPath/$fileName"
+                        echo $(mysql -u "$username" "$databaseName" < "$finalPath/$fileName") >> $targetFile
                 fi
 
-                echo "done with $fileName"
+                echo "Done with $fileName"
 
                 # Get the time when the itteration ended
                 timeItterationStop=$(date +%s%N)/1000000000
@@ -112,13 +126,22 @@ then
                 # Print the time elapsed
                 timeElapsed=$(($timeItterationStop-$timeItterationStart))
                 echo "Finished after: $timeElapsed seconds!"
+
+                # Log the name of the file and the time it took to the log file
+                echo "$(date): Done with $fileName after $timeElapsed seconds." >> $targetFile
         done
 
         # Print the total time ellapsed
         totalTimeElapsed=$(($(date +%s%N)/1000000000-$TIMESTART))
 
         echo "Done with all sql files in this folder after $totalTimeElapsed seconds."
+
+        # Print final time in the log file
+        echo "" >> $targetFile
+        echo "$(date): Done with all sql files in this folder after $totalTimeElapsed seconds." >> $targetFile
+        
         echo "Exiting..."
+        exit 0
 else
         # No user was given
         echo "You need to specify at least a user with the -u argument."
