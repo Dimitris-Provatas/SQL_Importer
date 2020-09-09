@@ -91,6 +91,9 @@ then
         # Loop through .sql files
         for FILE in $finalPath/*.sql
         do
+		# Log the name of the file and the time it started
+		echo "$(date): Started with $fileName." >> $LOGFILENAME
+		
                 # Start the timer for how long it took
                 timeItterationStart=$(date +%s%N)/1000000000
 
@@ -118,10 +121,8 @@ then
                 # Get the time when the itteration ended
                 timeItterationStop=$(date +%s%N)/1000000000
 
-                # Print the time elapsed
+                # Get the time elapsed
                 timeElapsed=$(($timeItterationStop-$timeItterationStart))
-                echo "Finished after: $timeElapsed seconds!"
-
                 # Log the name of the file and the time it took to the log file
                 echo "$(date): Done with $fileName after $timeElapsed seconds." >> $LOGFILENAME
         done
