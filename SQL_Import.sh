@@ -111,11 +111,11 @@ then
                 then
                         mysql -u "$username" -p$password -Bse "CREATE DATABASE IF NOT EXISTS \`$databaseName\`;" >> $LOGFILENAME
                         sleep 0.25
-                        mysql -u "$username" -p$password "$databaseName" < "$finalPath/$fileName" >> $LOGFILENAME
+                        mysql -u "$username" -p$password -f -D "$databaseName" < "$finalPath/$fileName" >> $LOGFILENAME
                 else
                         mysql -u "$username" -Bse "CREATE DATABASE IF NOT EXISTS \`$databaseName\`;" >> $LOGFILENAME
                         sleep 0.25
-                        mysql -u "$username" "$databaseName" < "$finalPath/$fileName" >> $LOGFILENAME
+                        mysql -u "$username" -f -D "$databaseName" < "$finalPath/$fileName" >> $LOGFILENAME
                 fi
 
                 echo "Done with $fileName"
