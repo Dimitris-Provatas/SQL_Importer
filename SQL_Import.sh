@@ -64,10 +64,12 @@ then
         # Set the path
         if [ "$path" == "" ]
         then
+                # Set the path to the same as the script
                 finalPath='.'
         else
                 if [ ${path:-1} == '/' ]
                 then
+                        # Remove the last slash from the path, if any
                         finalPath=${path%?}
                 else
                         finalPath=$path
@@ -136,7 +138,7 @@ then
         echo "" >> $LOGFILENAME
         echo "$(date): Done with all sql files in this folder after $totalTimeElapsed seconds." >> $LOGFILENAME
 	echo "You can find a complete log of the program at '$LOGFILENAME'"
-        
+        echo ""
         echo "Exiting..."
         exit 0
 else
