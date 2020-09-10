@@ -80,7 +80,7 @@ then
         LOGFILENAME="$finalPath/SQL_Import_$(date +%F-%T).log"
 
         # Log file title
-        echo "$(date) Log File for import operation!" >> $LOGFILENAME
+        echo "$(date): Log File for import operation!" >> $LOGFILENAME
         echo "" >> $LOGFILENAME
 
         # Print the arguments given by the user in the log file
@@ -117,8 +117,6 @@ then
                         sleep 0.25
                         mysql -u "$username" -f -D "$databaseName" < "$finalPath/$fileName" >> $LOGFILENAME
                 fi
-
-                echo "Done with $fileName"
 
                 # Get the time when the itteration ended
                 timeItterationStop=$(date +%s%N)/1000000000
